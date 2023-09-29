@@ -7,8 +7,12 @@ float col = 0;
 float sz = 0;
 float pan = 0;
 float loudness = 0;
+float[] leftArray;
+float[] rightArray;
 
 void setup() {
+  leftArray = new float[1499];
+  rightArray = new float[1499];
   size(1200, 800);
   oscP5 = new OscP5(this, 7080);
 }
@@ -40,5 +44,9 @@ void oscEvent(OscMessage theOscMessage) {
     pan = theOscMessage.get(0).floatValue();
   } else if (theOscMessage.checkAddrPattern("/loudness")) {
     loudness = theOscMessage.get(0).floatValue();
+  } else if (theOscMessage.checkAddrPattern("/waveformL")) {
+    for(int i = 0; i < 1499; i++) {
+      leftArray[i] = theOscMessage.get(i).floatValue();
+    } 
   }
 }
